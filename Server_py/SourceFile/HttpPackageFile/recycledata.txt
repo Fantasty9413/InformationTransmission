@@ -1,0 +1,13 @@
+POST / HTTP/1.1
+Host: 72a2a7adc82b.ngrok.io
+User-Agent: PostmanRuntime/7.26.10
+Content-Length: 421
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Cache-Control: no-cache
+Content-Type: text/plain
+Post: /api/v1/towerapi/recycledata
+Postman-Token: e4e28f8f-29fb-4539-a90e-5623c636a31a
+X-Forwarded-For: 18.162.155.13
+X-Forwarded-Proto: https
+{"id":"123456","sendTime":1619059960,"data":{"maxHeight":60.0,"minHeight":1.5,"startHeight":30,"endHeight":5,"maxWeight":3.0,"maxWeightPer":85,"startTime":1619059850,"endTime":1619059960,"maxForce":200,"maxForcePer":85,"sAngle":120,"eAngle":350,"sExtent":6,"eExtent":20,"maxElevation":5,"minElevation":2,"status":121,"alertalarm":201}}

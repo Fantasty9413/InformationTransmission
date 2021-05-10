@@ -1,0 +1,13 @@
+POST / HTTP/1.1
+Host: 72a2a7adc82b.ngrok.io
+User-Agent: PostmanRuntime/7.26.10
+Content-Length: 316
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Cache-Control: no-cache
+Content-Type: application/json
+Post: /api/v1/towerapi/realdata
+Postman-Token: e118415f-afb0-4b16-b938-ef2658be77b6
+X-Forwarded-For: 18.162.155.13
+X-Forwarded-Proto: http
+{"id":"123456","sendTime":1619059960,"data":{"height":123,"angle":111,"extent":25,"weight":3.0,"weightPer":80,"force":20,"forcePer":80,"wind":2,"state":7,"obliqueX":3.2,"obliqueY":1.7,"alertalarm":5,"maxweight":6,"obliuqePer":10,"windPer":5}}

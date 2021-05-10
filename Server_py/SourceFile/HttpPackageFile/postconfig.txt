@@ -1,0 +1,14 @@
+POST / HTTP/1.1
+Host: 94e4cd8de98e.ngrok.io
+User-Agent: PostmanRuntime/7.26.10
+Content-Length: 617
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Cache-Control: no-cache
+Content-Type: application/json
+Post: /api/v1/towerapi/postconfig
+Postman-Token: f51ba863-159e-45fe-8154-ee49cf25a4df
+X-Forwarded-For: 202.115.53.140
+X-Forwarded-Proto: http
+
+{"id": "05DCFF323335464D43065122", "data":{"devicesn":"00111208",     "height":0.0,"addtionheight":0.0,"smallwidth":0.0, "smallwidth":0.000, "bigwidth":0.0,     "rate":0, "deviceno":5, "channelno":0,"alertcollision":3.0,"alarmcollision":2.0,"minheight":0.0,"maxheight":0.0,     "minmargin": 1.5, "maxmargin":26.0,"alertwind":8.0,"alarmwind":12.0,"alertweight":80.0,     "alarmweight": 90.0,"alertelevation": 20.0,"alarmelevation": 30.0,"gpsx": 0.0,"gpsy":0.0,     "deviceiccid": "898607B11920C0516863", "devkey": "NO_DEV_KEY", "mincycletime": "0", "mincycleweight": "0", "model": "6013","version": "JOX-Apr 26 2021"}}
