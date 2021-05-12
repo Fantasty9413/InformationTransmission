@@ -11,6 +11,8 @@
 
 import xlrd
 import datetime
+import logging
+import Log
 from xlutils.copy import copy
 from shutil import copyfile
 from sys import exit
@@ -47,7 +49,7 @@ def save_data(data_package):
         file = xlrd.open_workbook('../DataFiles/' + filename)
     except IOError:
         try:
-            copyfile('../SourceFile/TemplateFile/datafile_template.xls', 'DataFiles/' + filename)
+            copyfile('../SourceFile/TemplateFile/datafile_template.xls', '../DataFiles/' + filename)
         except IOError as e:
             print("Unable to copy template file. %s" % e)
             exit(1)
@@ -65,6 +67,7 @@ def save_data(data_package):
     try:                                                                #保存写入数据
         datafile.save('../DataFiles/' + filename) #存储
     except IOError as e:
+        logging.debug("Unable to save file. %s" % e)                    #写入日志
         print("Unable to save file. %s" % e)    #报错
         print("Please close file " + filename + '\n')
         # exit(1)                                 #退出程序，否则将一直运行
