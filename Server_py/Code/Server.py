@@ -1,6 +1,8 @@
 import socket
 import time
 import json
+import logging
+import Log
 from Code import ExtractData
 from Code import SaveData
 
@@ -76,6 +78,7 @@ def server():
             save_to_excel(buf)
             connection.send(get_response(buf).encode())
         except s.timeout:
+            logging.warning('time out')
             print('time out')
         connection.close()
     return None

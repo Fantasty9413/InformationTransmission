@@ -8,7 +8,7 @@
 
 import time
 
-datatype = ['postconfig', 'realdata', 'recycledata', 'unknow']      #数据类型
+datatype = ('postconfig', 'realdata', 'recycledata', 'unknow')      #数据类型
 
 
 def get_data_type(package_head):        #获取数据类型
