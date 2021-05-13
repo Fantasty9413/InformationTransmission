@@ -38,9 +38,18 @@ def extra_data(http_package):            #提取数据
     # head = http_package.split('\r\n\r\n', 1)[0]     #利用http报文中head和body的分行来分割
     # body = http_package.split('\r\n\r\n', 1)[1]
 
-    # # test HttpPackgeFile 所用分割代码
-    head = http_package.split('\n\n', 1)[0]     #利用http报文中head和body的分行来分割
-    body = http_package.split('\n\n', 1)[1]
+    # # # test HttpPackgeFile 所用分割代码
+    # head = http_package.split('\n\n', 1)[0]     #利用http报文中head和body的分行来分割
+    # body = http_package.split('\n\n', 1)[1]
+
+    try:
+        # 正常运行 所用分割代码
+        head = http_package.split('\r\n\r\n', 1)[0]     #利用http报文中head和body的分行来分割
+        body = http_package.split('\r\n\r\n', 1)[1]
+    except IndexError as e:
+        # test HttpPackgeFile 所用分割代码
+        head = http_package.split('\n\n', 1)[0]     #利用http报文中head和body的分行来分割
+        body = http_package.split('\n\n', 1)[1]
 
     save_time = "time:" + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
     data_package = list()                        #封装数据
