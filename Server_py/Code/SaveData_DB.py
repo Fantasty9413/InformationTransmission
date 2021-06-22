@@ -81,13 +81,18 @@ if __name__ == "__main__":
     # con.commit()
     # cur.close()
 
-    my_file = Path("../DataBase/" + DB_name)
+    my_file = Path("../DataBase/" + "test.db")
 
-    try:
-        my_abs_path = my_file.resolve()
-    except FileNotFoundError:
-        print("not exist")
-    # 不存在
-    else:
+    # try:
+    #     my_abs_path = my_file.resolve()
+    # except FileNotFoundError:
+    #     print("not exist")
+    # # 不存在
+    # else:
+    #     print("exist")
+    # # 存在
+
+    if my_file.exists():
         print("exist")
-    # 存在
+    else:
+        print("not exist")
