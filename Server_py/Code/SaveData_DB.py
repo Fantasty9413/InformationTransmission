@@ -1,4 +1,5 @@
 import sqlite3
+from pathlib import Path
 list_name = ("postconfig_keyword", "realdata_keyword", "recycledata_keyword")
 
 postconfig_keyword = ("time", "id", "devicesn", "height", "addtionheight", "smallwidth1", "smallwidth2", "bigwidth", "rate", "deviceno", "channelno", "alertcollision", "alarmcollision", "minheight", "maxheight",
@@ -10,9 +11,12 @@ realdata_keyword = ("time", "id", "sendTime", "height", "angle", "extent", "weig
 recycledata_keyword = ("time", "id", "sendTime", "maxHeight", "minHeight", "startHeight", "endHeight", "maxWeight", "maxWeightPer", "startTime", "endTime", "maxForce", "maxForcePer", "sAngle", "eAngle", "sExtent",
                        "maxElevation", "minElevation", "status", "alertalarm")
 
+DB_name = "data.db"
+
 def DB_Initial():
     # DB_name = "test"
-    con = sqlite3.connect("../DataBase/test.db")  # 连接数据库
+    # con = sqlite3.connect("../DataBase/test.db")  # 连接数据库
+    con = sqlite3.connect("../DataBase/" + DB_name)  # 连接数据库
     cur = con.cursor()  # 创建游标
 
     keyword = str(postconfig_keyword)
@@ -56,7 +60,7 @@ def package_decode_DB(data_package):        #解码data_package，以便直接�
 def DB_writedata(data_decode):      #输入由package_decode_DB得到的解码data，写入数据库
     list_name = data_decode[0]       #头部信息 表民
     data = data_decode[1:len(data_decode)]        #余下信息 可以直接写入的数据
-    con = sqlite3.connect("../DataBase/test.db")        #连接数据库
+    con = sqlite3.connect("../DataBase/" + DB_name)        #连接数据库
     cur = con.cursor()      #创建游标
     sql = "INSERT INTO " + list_name + " values(" + (len(data)-1)*"?," + "?" + ")"
     cur.execute(sql,data)
@@ -65,43 +69,25 @@ def DB_writedata(data_decode):      #输入由package_decode_DB得到的解码da
 
 
 if __name__ == "__main__":
-    con = sqlite3.connect("../DataBase/test.db")        #连接数据库
-    cur = con.cursor()      #创建游标
-    # sql = "INSERT INTO postconfig values(?,?,?)"
-    # sql = "INSERT INTO test values(?,?,?)"
-    # data = (11, "zgq", 20)
-    sql = "INSERT INTO postconfig values(" + 30*"?," + "?" + ")"
-    data = range(31)
-    print(data)
-    cur.execute(sql,data)
-    con.commit()
-    cur.close()
-
-    # sql = "CREATE TABLE IF NOT EXISTS test(id INTEGER PRIMARY KEY,name TEXT,age INTEGER)"
-    # cur.execute(sql)
-    # # sql = "INSERT INTO test values(?,?,?)", (6, "zgq", 20)
-    # cur.execute("INSERT INTO test values(?,?,?)", (8, "zgq", 20))
-    # cur.execute("INSERT INTO test values(?,?,?)", (9, "zgq", 20))
-    # cur.execute("INSERT INTO test values(?,?,?)", (10, "zgq", 20))
+    # con = sqlite3.connect("../DataBase/test.db")        #连接数据库
+    # cur = con.cursor()      #创建游标
+    # # sql = "INSERT INTO postconfig values(?,?,?)"
+    # # sql = "INSERT INTO test values(?,?,?)"
+    # # data = (11, "zgq", 20)
+    # sql = "INSERT INTO postconfig values(" + 30*"?," + "?" + ")"
+    # data = range(31)
+    # print(data)
+    # cur.execute(sql,data)
     # con.commit()
     # cur.close()
-    # con.close()
 
-    # con = sqlite3.connect("../DataBase/test.db")        #连接数据库
-    # cur = con.cursor()      #创建游标
-    # sql = "CREATE TABLE IF NOT EXISTS test(%s)"%
+    my_file = Path("../DataBase/" + DB_name)
 
-    # DB_name = "test1"
-    #
-    # keyword = str(postconfig_keyword)
-    # keyword = keyword.replace(' ', '')
-    # keyword = keyword.replace('\'', '')
-    #
-    # sql = "CREATE TABLE IF NOT EXISTS " + DB_name + keyword
-    #
-    # con = sqlite3.connect("../DataBase/test.db")        #连接数据库
-    # cur = con.cursor()      #创建游标
-    # cur.execute(sql)
-    DB_Initial()
-    # print(sql)
-
+    try:
+        my_abs_path = my_file.resolve()
+    except FileNotFoundError:
+        print("not exist")
+    # 不存在
+    else:
+        print("exist")
+    # 存在
