@@ -9,7 +9,7 @@ postconfig_keyword = ("time", "id", "devicesn", "height", "addtionheight", "smal
 realdata_keyword = ("time", "id", "sendTime", "height", "angle", "extent", "weight", "weightPer", "force", "forcePer", "wind", "state", "obliqueX", "obliqueY", "alertalarm", "maxweight", "obliuqePer", "windPer")
 
 recycledata_keyword = ("time", "id", "sendTime", "maxHeight", "minHeight", "startHeight", "endHeight", "maxWeight", "maxWeightPer", "startTime", "endTime", "maxForce", "maxForcePer", "sAngle", "eAngle", "sExtent",
-                       "maxElevation", "minElevation", "status", "alertalarm")
+                       "eExtent", "maxElevation", "minElevation", "status", "alertalarm")
 
 DB_name = "data.db"
 
