@@ -1,5 +1,5 @@
 # InformationTransmission
-​	It's a project named information transmission. We'll receive data from the third party by network.
+​	It's a project named information transmission. We'll receive data from the third party by network. The program description is as follow.
 
 ## 1.背景
 
@@ -11,7 +11,7 @@
 
 ## 2.简介
 
-* Demo功能：第三方平台向我方开放接口，我方与第三方间**进行时时通信**，从而**实现数据的接收发送功能**，最后将**存储数据**到我方服务器上。
+* Demo功能：第三方平台向我方开放接口，我方与第三方间**进行时时通信**，从而**实现数据的接收发送功能**，最后**存储数据**到我方服务器上，以用于后续分析和监测。
 * Demo实现：基于http协议实现网络通信。第三方服务器作为客户端；我方服务器作为服务端。反复实现以下任务流程。
 * 任务流程：客户端发送数据---->服务端接收数据---->服务端存储数据---->服务端应答---->客户端发送数据---->......
 
@@ -23,32 +23,32 @@
 
 ### 2.客户端与服务端的通信
 
-​	任务中的通信与数据收发都是基于http协议的。一次任务包括客户端的**一次数据发送**和服务端的**一次应答**两个子任务，当一次完整的任务完成后，客户端才会开启下一次任务，等待再次发起请求发送数据。整个任务过程通过接收**数据匹配机制**和**校验码校对机制**来保证任务的安全性和数据的可靠性。
+​	任务中的通信与数据收发都是基于http协议的。一次任务包括客户端的**一次报文发送**和服务端的**一次报文应答**两个子任务，当一次完整的任务完成后，客户端才会开启下一次任务，等待再次发起请求发送报文。整个任务过程通过接收**数据匹配机制**和**校验码校对机制**来保证任务的安全性和数据的可靠性。
 
 * 数据匹配机制：
 
-  * 客户端发送时：每次发送的传感器数据内容是**固定**的，被分为**三大类数据**。分别是塔吊规格信息（postconfig）、时时数据（realdata）和循环数据（recycledata）；每一类数据下又有十几到几十个具体数据。服务端会匹配这些数据的关键字以**确保收到的http包来自于客户端**。
-  * 服务端应答时：服务端收到的三大类不同的数据。对于每一大类数据，都对应有**固定关键字的应答信息**。服务端根据数据类别来发送应答信息，客户端通过匹配这些应答信息来**确保http包来自于服务端**。
+  * 客户端发送时：每次发送的报文body段都携带传感器数据。传感器数据内容是**固定**的，被分为**三大类数据**。分别是塔吊规格信息（postconfig）、时时数据（realdata）和循环数据（recycledata）；每一类数据下又有十几到几十个具体数据。服务端会匹配这些数据的关键字以**确保收到的http包来自于客户端**。
+  * 服务端应答时：服务端收到的三大类不同的数据。对于每一大类数据，都对应有**固定关键字的应答信息**。服务端根据数据类别来确定应答报文中body携带的字段信息，客户端通过匹配这些应答信息来**确保http包来自于服务端**。
 
 * 校验码校对机制：
 
-  第三方开放接口给我方，此接口绑定了一个**固定的校验码**（类似于提前发放的token）。当我方服务端进行应答时，在前两类数据的**http应答包**中要**包含校验码**字段内容，客户端通过校对此校验码来确定我方服务端身份。
+  第三方开放接口给我方，此接口绑定了一个**固定的校验码**（类似于提前发放的token）。当我方服务端进行应答时，在前两类数据的**http应答包**中的body部分要**包含校验码**字段内容，客户端通过校对此校验码来确定我方服务端身份。
 
 ### 3.http包与数据的处理
 
 * 服务端获取http包处理过程：
-  1.  先获取得到body部分。body中的数据是以json格式存在，解码成UTF-8格式。
+  1.  获取得到body部分。body中的数据是以json格式存在，解码成UTF-8格式。
   2.  然后通过字符串分割、字符串处理获得关键字段内容。
   3.  最后再加上接收时间，打包成一组传感器数据，写入数据库。
 
 * 服务端响应发送http包的过程：
   1. 按照上一组接收数据的类别，选取对应回复字段内容，包括**状态码**、**成功信息**、**校验码**等内容。
-  2. 从本地文件中读取checkcode（校验码）并写入body中。checkcode存在本地以确保安全性。
-  3. 加上头部信息，生成http包，转为json格式，发送http包给客户端。
+  2. 从本地文件中读取checkcode（校验码）并写入body中。checkcode提前存在本地以确保安全性。
+  3. 加上头部信息，生成http报文，转为json格式，发送http包给客户端。
 
 ### 4.数据储存
 
-​	数据库的选取sqlite，一款轻量级数据库。初始化数据库，按数据类别分别建立3张数据表，接收到数据后，按类别写入对应表单。数据库选择的理由：
+​	数据库的选取sqlite，一款轻量级数据库。初始化数据库，**按数据类别分别建立3张数据表**，接收到数据后，按类别写入对应表单。数据库选择的理由：
 
 1. 是python自带package，**操作简单、使用方便**，利于后续使用python、matlab等进行数据分析和处理。
 2. **性能足够**。服务端的**数据发送频率为1秒到1分钟**甚至更高，没有高并发等特性的需求，只需匹配一下需求，因此性能完全足够。
@@ -61,28 +61,31 @@
 * 运行：利用异常捕获和日志记录功能来保证程序的顺利运行。异常捕获主要用在**文件读写**（判断文件是否存在、是否能读写）和**http包信息的处理**（信息比对，字符串分割处理）等位置，**防止程序挂掉**。异常原因分级，详细信息写入log方便后续运行维护。
 * 调试：运用**postman**，模拟客户端发送信息，进行前期调试。和第三方进行联调。
 
-### 6.改进
+### 6.后续工作
 
-
+* 利用多线程来进行程序的优化与改进。将接收报文、处理报文、写入数据等任务单独作为线程来实现。
+* 加入进程守护，防止进程挂掉，将程序一直挂起以便监听。
+* 将Demo布置到云端linux服务上。
 
 ## 4.Demo展示
 
 * Postman模拟客户端发送报文，主机作为服务端接收应答报文，一次通信收发的http包头信息。
 
-![image-20220324205442979](E:\Code_master\InformationTransmission\Server_py\Picture\readme-pic1.png)
+![Image](https://github.com/Fantasty9413/InformationTransmission/blob/main/Server_py/Image/readme-pic1.png)
 
 * Postman模拟客户端发送http包的body信息
 
-  <img src="E:\Code_master\InformationTransmission\Server_py\Picture\readme-pic2.png" alt="image-20220324211049820" style="zoom: 67%;" />
+  ![Image](https://github.com/Fantasty9413/InformationTransmission/blob/main/Server_py/Image/readme-pic2.png)
 
 * 服务端监听80端口时时接收报文
 
-![image-20220324205855081](E:\Code_master\InformationTransmission\Server_py\Picture\readme-pic3.png)
+![Image](https://github.com/Fantasty9413/InformationTransmission/blob/main/Server_py/Image/readme-pic3.png)
 
 * 联调时记录的部分传感器数据
 
-<img src="E:\Code_master\InformationTransmission\Server_py\Picture\readme-pic4.png" alt="image-20220324210017533" style="zoom: 33%;" />
+![Image](https://github.com/Fantasty9413/InformationTransmission/blob/main/Server_py/Image/readme-pic4.png)
 
 * 利用DB Browser可视化查看数据库中已存放数据
 
-<img src="E:\Code_master\InformationTransmission\Server_py\Picture\readme-pic5.png" alt="image-20220324210538160" style="zoom:50%;" />
+![Image](https://github.com/Fantasty9413/InformationTransmission/blob/main/Server_py/Image/readme-pic5.png)
+
